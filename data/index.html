@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script defer src="js/script.js"></script>
+    <title>Xbee Configuration & Sync Control Module</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-light bg-light">
+        <a href="#" class="navbar-brand">Xbee ConfigSync</a>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a href="#" class="nav-link">Settings</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div id="main" class="container">
+      <div class="row justify-content-around">
+        <div class="col-md-5">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              Channel:
+              <input id="CH" type="text" class="form-control" />
+            </li>
+            <li class="list-group-item">
+              Network PAN ID:
+              <input id="ID" type="text" class="form-control" />
+            </li>
+            <li class="list-group-item">
+              Node ID:
+              <input id="NI" type="text" class="form-control" />
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-5">
+          <ul class="list-group list-group-flush">
+            <li
+              class="list-group-item d-flex justify-content-start align-items-center"
+            >
+              Serial High:
+              <h6
+                id="SH"
+                class="font-weight-normal align-items-center pl-3 pt-2"
+              ></h6>
+            </li>
+            <li
+              class="list-group-item d-flex justify-content-start align-items-center"
+            >
+              Serial Low:
+              <h6
+                id="SL"
+                class="font-weight-normal align-items-center pl-4 pt-2"
+              ></h6>
+            </li>
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+              API Enabled:
+              <button id="API" class="btn btn-success">Enabled</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
