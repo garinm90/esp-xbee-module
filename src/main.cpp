@@ -21,9 +21,6 @@ const uint32_t efuseid = ESP.getEfuseMac();
 const char *password = "LEDLIGHTS1";
 char ssid[BUFFER_SIZE];
 
-String processor(const String &var);
-void setApiMode();
-
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
 
@@ -45,9 +42,10 @@ void setup()
   }
   else
   {
-    Serial.println("In API Mode");
+    // Serial.println("In API Mode");
     Serial2.end();
     Serial2.begin(115200);
+    xbeeStatus();
   }
 
   WiFi.begin(tempssid, temppass);
@@ -92,24 +90,4 @@ void setup()
 
 void loop()
 {
-}
-
-void setApiMode()
-{
-  String responses;
-  Serial2.write("ATBD 7\r");
-  Serial2.flush();
-  responses = Serial2.readString();
-  Serial.println(responses);
-  Serial2.write("ATAP 2\r");
-  Serial2.flush();
-  responses = Serial2.readString();
-  Serial.println(responses);
-  Serial2.write("ATWR\r");
-  Serial2.flush();
-  responses = Serial2.readString();
-  Serial.println(responses);
-  Serial2.write("ATAC\r");
-  Serial2.end();
-  Serial2.begin(115200);
 }

@@ -8,6 +8,8 @@ void procS(uint8_t *data, AsyncWebSocketClient *client)
     client->text('S' + getSettings());
 }
 
+void procU(uint8_t *data);
+
 void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)
 {
     switch (type)
@@ -34,6 +36,8 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
                 Serial.println("Settings requested");
                 procS(data, client);
                 break;
+            case 'U':
+                Serial.println("Setting Update Request");
             }
         }
     }

@@ -4,3 +4,5 @@
 
 String getSettings();
 void saveSetting();
+void setApiMode();
+bool xbeeStatus();

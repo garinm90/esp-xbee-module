@@ -28,19 +28,22 @@ String serialHigh;
 String getSettings()
 {
 
-    xbee.begin(Serial2);
+    if (Serial2)
+    {
+        xbee.begin(Serial2);
 
-    //Delay for xbee
-    delay(100);
+        //Delay for xbee
+        delay(100);
 
-    settings["SH"] = getSetting(shCmd);
-    settings["SL"] = getSetting(slCmd);
-    settings["ID"] = getSetting(netidCmd);
-    settings["NI"] = getSetting(idCmd);
-    settings["CH"] = getSetting(chCmd);
-    String response;
-    serializeJson(settings, response);
-    return response;
+        settings["SH"] = getSetting(shCmd);
+        settings["SL"] = getSetting(slCmd);
+        settings["ID"] = getSetting(netidCmd);
+        settings["NI"] = getSetting(idCmd);
+        settings["CH"] = getSetting(chCmd);
+        String response;
+        serializeJson(settings, response);
+        return response;
+    }
 }
 
 String getSetting(uint8_t *Setting)
@@ -51,7 +54,8 @@ String getSetting(uint8_t *Setting)
 
     if (xbee.readPacket(100))
     {
-        xbee.getResponse().getAtCommandResponse(atResponse);
+        xbee.getResponse()
+            .getAtCommandResponse(atResponse);
 
         if (atResponse.getValueLength() > 0)
         {
@@ -63,4 +67,67 @@ String getSetting(uint8_t *Setting)
             return String(SH);
         }
     }
+    else
+    {
+        return String("error");
+    }
+}
+
+bool xbeeStatus()
+{
+    if (Serial2)
+    {
+        xbee.begin(Serial2);
+        String error = "error";
+        String response = getSetting(shCmd);
+        if (response.equals(error))
+        {
+            Serial.println(response);
+            return false;
+        }
+        else
+        {
+            Serial.println(response);
+            return true;
+        }
+    }
+    else
+    {
+        Serial.println("Device not connected!");
+        return false;
+    }
+
+    // atRequest.setCommand((uint8_t *)"TEST");
+    // xbee.send(atRequest);
+
+    // if (xbee.readPacket(100))
+    // {
+    //     if(at)
+    //     Serial.println("Response Recieved");
+    //     return true;
+    // }
+    // else
+    // {
+    //     return false;
+    // }
+    // Serial.println(response);
+}
+void setApiMode()
+{
+    String responses;
+    Serial2.write("ATBD 7\r");
+    Serial2.flush();
+    responses = Serial2.readString();
+    Serial.println(responses);
+    Serial2.write("ATAP 2\r");
+    Serial2.flush();
+    responses = Serial2.readString();
+    Serial.println(responses);
+    Serial2.write("ATWR\r");
+    Serial2.flush();
+    responses = Serial2.readString();
+    Serial.println(responses);
+    Serial2.write("ATAC\r");
+    Serial2.end();
+    Serial2.begin(115200);
 }
