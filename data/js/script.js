@@ -10,7 +10,13 @@ const saveConfig = document.getElementById('save');
 let divErrorMsg = document.createElement('div');
 
 saveConfig.addEventListener('click', (e) => {
-  // console.log(CH.valid());
+  if (CH.validity.valid && ID.validity.valid && NI.validity.valid) {
+    console.log('Updating settings');
+    console.log(CH.value);
+    submitSettings(payload);
+  } else {
+    console.log('invalid settings!');
+  }
 });
 
 CH.addEventListener('input', (e) => {
@@ -20,6 +26,26 @@ CH.addEventListener('input', (e) => {
   } else {
     CH.classList.add('is-invalid');
     CH.classList.remove('is-valid');
+  }
+});
+
+ID.addEventListener('input', (e) => {
+  if (ID.validity.valid) {
+    ID.classList.add('is-valid');
+    ID.classList.remove('is-invalid');
+  } else {
+    ID.classList.add('is-invalid');
+    ID.classList.remove('is-valid');
+  }
+});
+
+NI.addEventListener('input', (e) => {
+  if (NI.validity.valid) {
+    NI.classList.add('is-valid');
+    NI.classList.remove('is-invalid');
+  } else {
+    NI.classList.add('is-invalid');
+    NI.classList.remove('is-valid');
   }
 });
 
@@ -53,9 +79,6 @@ function wsConnect() {
   };
 }
 
-// while(!socket.readyState){
-//   console.log('Connecting.....')
-// }
 function wsEnqueue(message, socket) {
   let wsQueueIndex = wsQueue.findIndex(wsCheckQueue, message);
   if (wsQueueIndex === -1) {
@@ -94,10 +117,11 @@ function wsReadyToSend() {
 function getSettings(payload) {
   SH.innerText = payload['SH'];
   SL.innerText = payload['SL'];
-  // CH.innerHTML = payload['CH'];
   CH.value = parseInt(payload['CH'], 16).toString();
   ID.value = parseInt(payload['ID'], 16).toString();
-  NI.value = parseInt(payload['NI'], 16).toString();
+  // NI.value = parseInt(payload['NI'], 16).toString();
+  NI.value = String.fromCharCode(parseInt(payload['NI'], 16));
+  // NI.value = payload['NIsp'];
 }
 
-function submitSettings(socket) {}
+function submitSettings(payload) {}

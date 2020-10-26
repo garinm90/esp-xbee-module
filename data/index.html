@@ -35,8 +35,7 @@
                 required
                 min="11"
                 max="26"
-                type="text"
-                class="form-control is-valid"
+                class="form-control"
               />
               <div class="invalid-feedback">
                 The value must be between 11 and 26.
@@ -44,11 +43,31 @@
             </li>
             <li class="list-group-item">
               Network PAN ID:
-              <input id="ID" type="text" class="form-control" />
+              <input
+                id="ID"
+                required
+                min="0"
+                max="65535"
+                type="number"
+                class="form-control"
+              />
+              <div class="invalid-feedback">
+                The PAN ID must be between 0-65535.
+              </div>
             </li>
             <li class="list-group-item">
               Node ID:
-              <input id="NI" type="text" class="form-control" />
+              <input
+                required
+                minlength="1"
+                maxlength="20"
+                id="NI"
+                type="text"
+                class="form-control"
+              />
+              <div class="invalid-feedback">
+                Enter a name 1-20 characters long.
+              </div>
             </li>
           </ul>
         </div>
