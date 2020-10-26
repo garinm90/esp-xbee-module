@@ -30,12 +30,17 @@
             <li class="list-group-item">
               Channel:
               <input
-                data-parsley-type="integer"
-                data-parsley-required
+                type="number"
                 id="CH"
+                required
+                min="11"
+                max="26"
                 type="text"
-                class="form-control"
+                class="form-control is-valid"
               />
+              <div class="invalid-feedback">
+                The value must be between 11 and 26.
+              </div>
             </li>
             <li class="list-group-item">
               Network PAN ID:

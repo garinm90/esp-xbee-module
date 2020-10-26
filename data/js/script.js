@@ -7,10 +7,20 @@ const CH = document.getElementById('CH');
 const ID = document.getElementById('ID');
 const NI = document.getElementById('NI');
 const saveConfig = document.getElementById('save');
+let divErrorMsg = document.createElement('div');
 
 saveConfig.addEventListener('click', (e) => {
-  $('#CH').validate();
-  console.log(e);
+  // console.log(CH.valid());
+});
+
+CH.addEventListener('input', (e) => {
+  if (CH.validity.valid) {
+    CH.classList.add('is-valid');
+    CH.classList.remove('is-invalid');
+  } else {
+    CH.classList.add('is-invalid');
+    CH.classList.remove('is-valid');
+  }
 });
 
 wsConnect();
