@@ -46,6 +46,12 @@ String getSettings()
     }
 }
 
+bool updateSettings(uint8_t *Settings)
+{
+    const int jsonSize = JSON_OBJECT_SIZE(3);
+    StaticJsonDocument<jsonSize> newSettings;
+}
+
 String getSetting(uint8_t *Setting)
 {
     char SH[50];

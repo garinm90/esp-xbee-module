@@ -8,12 +8,18 @@ const ID = document.getElementById('ID');
 const NI = document.getElementById('NI');
 const saveConfig = document.getElementById('save');
 let divErrorMsg = document.createElement('div');
+const target = document.location.host;
+const socket = new WebSocket('ws://192.168.86.168/ws');
+const settingsPayload = {
+  CH: '',
+  ID: '',
+  NI: '',
+};
 
 saveConfig.addEventListener('click', (e) => {
   if (CH.validity.valid && ID.validity.valid && NI.validity.valid) {
     console.log('Updating settings');
-    console.log(CH.value);
-    submitSettings(payload);
+    submitSettings('U');
   } else {
     console.log('invalid settings!');
   }
@@ -52,9 +58,6 @@ NI.addEventListener('input', (e) => {
 wsConnect();
 
 function wsConnect() {
-  const target = document.location.host;
-  const socket = new WebSocket('ws://192.168.86.168/ws');
-
   socket.onopen = (e) => {
     // socket.send('S');
     wsEnqueue('S', socket);
@@ -124,4 +127,6 @@ function getSettings(payload) {
   // NI.value = payload['NIsp'];
 }
 
-function submitSettings(payload) {}
+function submitSettings(payload) {
+  wsEnqueue('U Rest of message', socket);
+}

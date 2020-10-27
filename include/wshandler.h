@@ -2,18 +2,28 @@
 #include <ESPAsyncWebServer.h>
 #include <ArduinoJson.h>
 #include "xbeesettings.h"
+#include "Arduino.h"
 
 void procS(uint8_t *data, AsyncWebSocketClient *client)
 {
     client->text('S' + getSettings());
 }
 
-void procU(uint8_t *data);
+void procU(uint8_t *data)
+{
+    Serial.println((char *)data);
+};
 
 void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)
 {
     switch (type)
     {
+    case WS_EVT_ERROR:
+    {
+    }
+    case WS_EVT_PONG:
+    {
+    }
     case WS_EVT_CONNECT:
     {
     }
@@ -38,6 +48,7 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventTyp
                 break;
             case 'U':
                 Serial.println("Setting Update Request");
+                procU(data);
             }
         }
     }
