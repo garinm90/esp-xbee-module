@@ -11,7 +11,10 @@ void procS(uint8_t *data, AsyncWebSocketClient *client)
 
 void procU(uint8_t *data)
 {
-    Serial.println((char *)data);
+    String payload = String((char *)data);
+    payload = payload.substring(payload.indexOf('{'), payload.indexOf('}') + 1);
+    Serial.println(payload);
+    bool success = updateSettings(payload);
 };
 
 void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)

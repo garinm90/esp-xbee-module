@@ -46,10 +46,22 @@ String getSettings()
     }
 }
 
-bool updateSettings(uint8_t *Settings)
+bool updateSettings(String Settings)
 {
     const int jsonSize = JSON_OBJECT_SIZE(3);
     StaticJsonDocument<jsonSize> newSettings;
+    DeserializationError err = deserializeJson(newSettings, Settings);
+    if (err)
+    {
+        Serial.println("An error has occured");
+        Serial.println(err.c_str());
+        return false;
+    }
+    else
+    {
+        Serial.println((const char *)newSettings["CH"]);
+        return true;
+    }
 }
 
 String getSetting(uint8_t *Setting)

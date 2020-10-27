@@ -18,8 +18,16 @@ const settingsPayload = {
 
 saveConfig.addEventListener('click', (e) => {
   if (CH.validity.valid && ID.validity.valid && NI.validity.valid) {
-    console.log('Updating settings');
-    submitSettings('U');
+    // Why? Because we have a string that displays a decimal value.
+    // So we turn it to an integer first then back to a string in HEX.
+    settingsPayload.CH = parseInt(CH.value).toString(16);
+    settingsPayload.ID = parseInt(ID.value).toString(16);
+    settingsPayload.NI = NI.value;
+    // console.log(settingsPayload.CH);
+    // console.log(settingsPayload.ID);
+    // console.log(settingsPayload.NI);
+    console.log(settingsPayload);
+    submitSettings(settingsPayload);
   } else {
     console.log('invalid settings!');
   }
@@ -128,5 +136,7 @@ function getSettings(payload) {
 }
 
 function submitSettings(payload) {
-  wsEnqueue('U Rest of message', socket);
+  payload = 'U' + JSON.stringify(payload);
+  console.log(payload);
+  wsEnqueue(payload, socket);
 }
