@@ -48,7 +48,7 @@ String getSettings()
 
 bool updateSettings(String Settings)
 {
-    const int jsonSize = JSON_OBJECT_SIZE(3);
+    const int jsonSize = JSON_OBJECT_SIZE(10);
     StaticJsonDocument<jsonSize> newSettings;
     DeserializationError err = deserializeJson(newSettings, Settings);
     if (err)
@@ -59,8 +59,13 @@ bool updateSettings(String Settings)
     }
     else
     {
-        Serial.println((const char *)newSettings["CH"]);
-        return true;
+        JsonObject settingsObj = newSettings.as<JsonObject>();
+        for (JsonPair p : settingsObj)
+        {
+            sendAtCommand(p.key().c_str(), (const char *)p.value());
+            // Serial.println(p.key().c_str());
+            // Serial.println((const char *)p.value());
+        }
     }
 }
 
@@ -148,4 +153,38 @@ void setApiMode()
     Serial2.write("ATAC\r");
     Serial2.end();
     Serial2.begin(115200);
+}
+
+void sendAtCommand(const char *command, const char *parameter)
+{
+    atRequest.clearCommandValue();
+    atRequest.setCommand((uint8_t *)command);
+    atRequest.setCommandValueLength(strlen(parameter));
+    atRequest.setCommandValue(atol(parameter));
+    Serial.print("atRequest.getCommandValue: ");
+    Serial.println((char *)atRequest.getCommandValue());
+    atRequest.getCommand();
+    xbee.send(atRequest);
+    if (xbee.readPacket(250))
+    {
+        if (xbee.getResponse().getApiId() == AT_COMMAND_RESPONSE)
+        {
+            xbee.getResponse().getAtCommandResponse(atResponse);
+            if (atResponse.isOk())
+            {
+                Serial.print("Command [");
+                Serial.print((char)atResponse.getCommand()[0]);
+                Serial.print((char)atResponse.getCommand()[1]);
+                Serial.println("] was successful!");
+                Serial.print("Respone Value [");
+                Serial.print((char *)atResponse.getValue());
+                Serial.println("] value!");
+            }
+            else
+            {
+                Serial.print("Bad Command: ");
+                Serial.println(atResponse.getStatus(), HEX);
+            }
+        }
+    }
 }

@@ -128,6 +128,7 @@ function wsReadyToSend() {
 function getSettings(payload) {
   SH.innerText = payload['SH'];
   SL.innerText = payload['SL'];
+  console.log(CH.value);
   CH.value = parseInt(payload['CH'], 16).toString();
   ID.value = parseInt(payload['ID'], 16).toString();
   // NI.value = parseInt(payload['NI'], 16).toString();

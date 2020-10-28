@@ -13,7 +13,6 @@ void procU(uint8_t *data)
 {
     String payload = String((char *)data);
     payload = payload.substring(payload.indexOf('{'), payload.indexOf('}') + 1);
-    Serial.println(payload);
     bool success = updateSettings(payload);
 };
 
